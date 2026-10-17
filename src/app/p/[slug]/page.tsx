@@ -32,10 +32,10 @@ function DashReal({ p, d }: { p: Project; d: DashUsage }) {
     <main className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-12">
       <Header p={p} subtitle={`Dashboard · ${p.host} · haqiqiy ma'lumot (server jurnali)`} />
       <div className="mb-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <StatTile label="Kirishlar" value={d.entries} sub={`~${entriesPerDay}/kun · ${d.days.length} kun`} tone="brand" />
-        <StatTile label="O'rtacha kunlik" value={d.avgUsers} sub="har xil odam · 7 kun" tone="accent" />
+        <StatTile label="Jami odam" value={d.peopleTotal} sub={`har xil odam · ${d.days.length} kun`} tone="brand" />
+        <StatTile label="Necha marta ochilgan" value={d.entries} sub={`~${entriesPerDay}/kun`} tone="accent" />
+        <StatTile label="O'rtacha kunlik" value={d.avgUsers} sub="har kuni har xil odam" tone="violet" />
         <StatTile label="Eng faol bo'lim" value={topSection ? topSection.name : "—"} sub={topSection ? `${topSection.users} odam` : undefined} tone="emerald" />
-        <StatTile label="Bo'limlar" value={d.sections.length} sub="kuzatilgan" tone="amber" />
       </div>
 
       <Card className="mb-6 p-5">
@@ -51,9 +51,10 @@ function DashReal({ p, d }: { p: Project; d: DashUsage }) {
         <Card className="p-5">
           <SectionHead title="Nimani bilamiz" />
           <ul className="space-y-2 text-[12.5px] leading-relaxed text-slate-600">
-            <li>✅ Qaysi <b>bo'lim</b>ni kim ochgani — server jurnalidan (ilovaga tegilmagan).</li>
-            <li>✅ <b>Kirishlar</b> va kunlik faol odamlar soni.</li>
+            <li>✅ <b>Necha xil odam</b> va qaysi <b>bo'lim</b>ni ochgani — server jurnalidan (ilovaga tegilmagan).</li>
+            <li>✅ Necha marta ochilgani (kirishlar) va kunlik faol odamlar.</li>
             <li>🔒 Faqat <b>sanoq</b> — ism, email, IP saqlanmaydi.</li>
+            <li>⚠️ Odam soni ≈ taxminiy: bitta ofis tarmog'i kamroq, ko'p qurilma ko'proq ko'rsatishi mumkin.</li>
             <li>⛔ Qaysi <b>filtr qiymati</b> tanlangani — bu daraja ilovaga kuzatuv talab qiladi.</li>
           </ul>
         </Card>

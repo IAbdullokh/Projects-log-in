@@ -11,7 +11,8 @@ export type DashUsage = {
   avgUsers: number; // avg distinct daily visitors over the last 7 days
   peakUsers: number;
   totalCalls: number;
-  entries: number; // how many times people opened/entered the dashboard
+  peopleTotal: number; // how many DIFFERENT people used it over the whole period
+  entries: number; // how many TIMES it was opened (opens, not people)
   sections: Section[]; // which part they use, ranked by distinct users
   lastDate: string | null;
   source: string;
@@ -19,6 +20,7 @@ export type DashUsage = {
 
 type Raw = {
   days: DayStat[];
+  people?: number;
   entries?: number;
   sections?: Section[];
   source: string;
@@ -37,6 +39,7 @@ function summarize(raw: Raw): DashUsage {
     avgUsers,
     peakUsers,
     totalCalls,
+    peopleTotal: raw.people ?? 0,
     entries: raw.entries ?? 0,
     sections,
     lastDate: raw.updated ?? null,

@@ -3,6 +3,7 @@
   "source": "nginx /api/dashboard — counts only, no IPs stored",
   "note": "Qaysi bo'limni nechta har xil odam ochgani (server so'rov jurnalidan). Bitrix webhook va botlar chiqarilgan.",
   "updated": "2026-10-17",
+  "people": 28,
   "entries": 200,
   "days": [
     { "date": "2026-10-03", "users": 6, "calls": 160 },
