@@ -32,7 +32,10 @@ export function SectionExplorer({ sections }: { sections: Section[] }) {
               >
                 <span className={clsx("truncate text-[13px]", on ? "font-semibold text-brand-700" : "text-slate-700")}>{s.name}</span>
                 <span className="h-4 overflow-hidden rounded-full bg-slate-100">
-                  <span className="block h-full rounded-full" style={{ width: `${pct}%`, background: on ? "var(--chart-blue)" : "var(--chart-slate)" }} />
+                  <span
+                    className="block h-full rounded-full transition-[filter]"
+                    style={{ width: `${pct}%`, background: "var(--chart-blue)", filter: on ? "none" : "saturate(0.85) opacity(0.82)" }}
+                  />
                 </span>
                 <span className="num w-7 text-right text-[13px] font-semibold text-slate-900">{s.users}</span>
               </button>
