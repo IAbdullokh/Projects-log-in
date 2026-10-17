@@ -25,7 +25,7 @@ export function Bars({
         const pct = Math.max(2, Math.round((it.value / max) * 100));
         const color = categorical ? CAT[i % CAT.length] : "var(--chart-blue)";
         return (
-          <div key={it.label} className="grid grid-cols-[minmax(7rem,9rem)_1fr_auto] items-center gap-3" title={`${it.label}: ${format(it.value)}`}>
+          <div key={it.label} className="grid grid-cols-[minmax(8rem,12rem)_1fr_auto] items-center gap-3" title={`${it.label}: ${format(it.value)}`}>
             <div className="truncate text-[13px] text-slate-700">
               {it.label}
               {it.note && <span className="ml-1 text-[11px] text-slate-400">· {it.note}</span>}

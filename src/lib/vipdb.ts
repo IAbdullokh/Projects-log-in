@@ -17,7 +17,7 @@ function vipPool(): Pool {
     pool = new Pool({
       connectionString: connectionString(),
       ssl: { rejectUnauthorized: false },
-      max: 3,
+      max: 10, // allow the page's queries to run concurrently
       idleTimeoutMillis: 10_000,
       connectionTimeoutMillis: 15_000,
     });

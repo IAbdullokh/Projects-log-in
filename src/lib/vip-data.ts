@@ -28,9 +28,20 @@ const ACTION_LABEL: Record<string, string> = {
   "user.sessions_end": "Sessiyalar tugatildi",
   "office.open": "Ofis ochildi",
   "office.close": "Ofis yopildi",
+  "auth.stepup": "Qo'shimcha tasdiq",
+  "auth.code_failed": "Noto'g'ri kod",
+  "user.update": "Xodim o'zgartirildi",
+  "user.block": "Xodim bloklandi",
+  "user.devices_forget": "Qurilmalar o'chirildi",
+  "device.forget": "Qurilma o'chirildi",
+  "driver.document_upload": "Hujjat yuklandi",
+  "driver.limit_set": "Limit o'rnatildi",
+  "role.create": "Rol yaratildi",
+  "settings.update": "Sozlama o'zgartirildi",
   "alert.night_login": "Ogohlantirish · tunda kirish",
   "alert.new_device": "Ogohlantirish · yangi qurilma",
   "alert.wrong_password": "Ogohlantirish · noto'g'ri parol",
+  "alert.blocked_attempt": "Ogohlantirish · bloklangan urinish",
 };
 const label = (a: string) => ACTION_LABEL[a] ?? a;
 
@@ -52,45 +63,33 @@ type CountRow = { n: number };
 export async function getVipDetail(): Promise<VipDetail> {
   const base = `from app_audit a join app_users u on u.id = a.actor_user_id where ${EXCLUDE}`;
 
-  const [totals] = await vipQuery<{ n: number; mn: string | null; mx: string | null }>(
-    `select count(*)::int n, min(a.at)::date::text mn, max(a.at)::date::text mx ${base}`,
-  );
-
-  const [accounts] = await vipQuery<CountRow>(`select count(distinct a.actor_user_id)::int n ${base}`);
-
-  const [ops] = await vipQuery<CountRow>(
-    `select count(distinct a.actor_user_id)::int n ${base} and u.source='admin' and (select key from app_roles r where r.id=u.role_id)='operator'`,
-  );
-
-  const [seats] = await vipQuery<CountRow>(
-    `select count(*)::int n from app_users u join app_roles r on r.id=u.role_id
-       where u.source='admin' and r.key='operator' and u.status='active'`,
-  );
-
-  const [weekly] = await vipQuery<CountRow>(
-    `select count(distinct a.actor_user_id)::int n ${base} and a.at >= now() - interval '7 days'`,
-  );
-
-  const actions = await vipQuery<{ action: string; n: number }>(
-    `select a.action, count(*)::int n ${base} group by a.action order by n desc limit 12`,
-  );
-
-  const adoption = await vipQuery<{ wk: string; active: number }>(
-    `select to_char(date_trunc('week', a.at at time zone 'Asia/Tashkent'),'DD Mon') wk,
-            count(distinct a.actor_user_id)::int active
-       ${base} group by date_trunc('week', a.at at time zone 'Asia/Tashkent')
-       order by date_trunc('week', a.at at time zone 'Asia/Tashkent')`,
-  );
-
-  // Parks: only park-scoped (driver.*) events carry park_id. Label by a short tag
-  // + driver count until the park names are mapped.
-  const parks = await vipQuery<{ park_id: string; n: number; drivers: number }>(
-    `select a.park_id,
-            count(*)::int n,
-            coalesce((select count(*)::int from drivers d where d.park_id = a.park_id), 0) drivers
-       ${base} and a.park_id is not null
-       group by a.park_id order by n desc limit 6`,
-  );
+  // Run every query concurrently (the pool allows it) — one round-trip, not eight.
+  const [[totals], [accounts], [ops], [seats], [weekly], actions, adoption, parks] = await Promise.all([
+    vipQuery<{ n: number; mn: string | null; mx: string | null }>(
+      `select count(*)::int n, min(a.at)::date::text mn, max(a.at)::date::text mx ${base}`),
+    vipQuery<CountRow>(`select count(distinct a.actor_user_id)::int n ${base}`),
+    vipQuery<CountRow>(
+      `select count(distinct a.actor_user_id)::int n ${base} and u.source='admin' and (select key from app_roles r where r.id=u.role_id)='operator'`),
+    vipQuery<CountRow>(
+      `select count(*)::int n from app_users u join app_roles r on r.id=u.role_id
+         where u.source='admin' and r.key='operator' and u.status='active'`),
+    vipQuery<CountRow>(
+      `select count(distinct a.actor_user_id)::int n ${base} and a.at >= now() - interval '7 days'`),
+    vipQuery<{ action: string; n: number }>(
+      `select a.action, count(*)::int n ${base} group by a.action order by n desc limit 12`),
+    vipQuery<{ wk: string; active: number }>(
+      `select to_char(date_trunc('week', a.at at time zone 'Asia/Tashkent'),'DD Mon') wk,
+              count(distinct a.actor_user_id)::int active
+         ${base} group by date_trunc('week', a.at at time zone 'Asia/Tashkent')
+         order by date_trunc('week', a.at at time zone 'Asia/Tashkent')`),
+    // Parks: only park-scoped (driver.*) events carry park_id. Label by a short tag
+    // + driver count until the park names are mapped.
+    vipQuery<{ park_id: string; n: number; drivers: number }>(
+      `select a.park_id, count(*)::int n,
+              coalesce((select count(*)::int from drivers d where d.park_id = a.park_id), 0) drivers
+         ${base} and a.park_id is not null
+         group by a.park_id order by n desc limit 6`),
+  ]);
 
   return {
     totalEvents: totals?.n ?? 0,
@@ -111,4 +110,18 @@ export async function getVipDetail(): Promise<VipDetail> {
 
 function fmtK(n: number): string {
   return n >= 1000 ? `${(n / 1000).toFixed(1)}k` : String(n);
+}
+
+// Light query for the overview card (weekly active + operator seats).
+export async function getVipHomeStat(): Promise<{ weeklyActive: number; seats: number; activeOperators: number }> {
+  const base = `from app_audit a join app_users u on u.id = a.actor_user_id where ${EXCLUDE}`;
+  const [[weekly], [seats], [ops]] = await Promise.all([
+    vipQuery<CountRow>(`select count(distinct a.actor_user_id)::int n ${base} and a.at >= now() - interval '7 days'`),
+    vipQuery<CountRow>(
+      `select count(*)::int n from app_users u join app_roles r on r.id=u.role_id
+         where u.source='admin' and r.key='operator' and u.status='active'`),
+    vipQuery<CountRow>(
+      `select count(distinct a.actor_user_id)::int n ${base} and u.source='admin' and (select key from app_roles r where r.id=u.role_id)='operator'`),
+  ]);
+  return { weeklyActive: weekly?.n ?? 0, seats: seats?.n ?? 0, activeOperators: ops?.n ?? 0 };
 }
