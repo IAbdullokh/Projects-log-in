@@ -2,6 +2,8 @@
 // Snapshots live in src/lib/data/<project>.json, refreshed from nginx logs.
 import hilol from "@/lib/data/hilol.json";
 import powergym from "@/lib/data/powergym.json";
+import ethno from "@/lib/data/ethno.json";
+import kdavo from "@/lib/data/kdavo.json";
 
 export type DayStat = { date: string; users: number; calls: number };
 export type SubFeature = { name: string; users: number; calls: number };
@@ -51,6 +53,8 @@ function summarize(raw: Raw): DashUsage {
 const REGISTRY: Record<string, DashUsage | undefined> = {
   hilol: summarize(hilol as Raw),
   powergym: summarize(powergym as Raw),
+  ethno: summarize(ethno as Raw),
+  "k-davo": summarize(kdavo as Raw),
 };
 
 /** Real usage for a dashboard, or null if it isn't connected yet. */

@@ -57,11 +57,20 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ v
 
       {showDash && (
         <section>
-          <SectionHead title="Dashboardlar" hint="Reyting — namuna (ulangandan keyin haqiqiy bo'ladi)" />
-          <Card className="mb-4 p-5">
-            <Bars items={dash.map((p) => ({ label: p.name, value: p.weeklyActive }))} format={(n) => `${n}`} />
-            <p className="mt-3 text-[12px] text-slate-400">namuna · haftalik faol foydalanuvchilar</p>
-          </Card>
+          <SectionHead title="Dashboardlar" hint="Qaysi mijoz ko'proq ishlatadi — jami odam bo'yicha" />
+          {(() => {
+            const ranking = dash
+              .map((p) => ({ p, real: getDashUsage(p.slug) }))
+              .filter((x) => x.real)
+              .map((x) => ({ label: x.p.name, value: x.real!.peopleTotal }))
+              .sort((a, b) => b.value - a.value);
+            return ranking.length ? (
+              <Card className="mb-4 p-5">
+                <Bars items={ranking} format={(n) => `${n}`} />
+                <p className="mt-3 text-[12px] text-slate-400">haqiqiy · jami foydalanuvchi (odam), ulangan dashboardlar</p>
+              </Card>
+            ) : null;
+          })()}
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {dash.map((p) => {
               const real = getDashUsage(p.slug);

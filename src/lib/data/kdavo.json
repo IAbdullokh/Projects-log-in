@@ -1,0 +1,17 @@
+{
+  "project": "k-davo",
+  "source": "nginx /api dashboard sections — counts only, no IPs stored",
+  "note": "Bitrix webhook va bot trafigi chiqarilgan. Odam soni = kirgan (auth) odamlar.",
+  "updated": "2026-10-17",
+  "people": 48,
+  "entries": 828,
+  "days": [],
+  "sections": [
+    { "key": "meta", "name": "Meta", "users": 29, "calls": 619, "subs": [] },
+    { "key": "lidlar", "name": "Lidlar", "users": 27, "calls": 2431, "subs": [] },
+    { "key": "qongiroqlar", "name": "Qo'ng'iroqlar", "users": 12, "calls": 1641, "subs": [] },
+    { "key": "kunlik", "name": "Kunlik", "users": 11, "calls": 162, "subs": [] },
+    { "key": "kampaniyalar", "name": "Kampaniyalar", "users": 8, "calls": 51, "subs": [] },
+    { "key": "sdelkalar", "name": "Sdelkalar", "users": 8, "calls": 36, "subs": [] }
+  ]
+}

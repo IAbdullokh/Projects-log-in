@@ -1,0 +1,69 @@
+{
+  "project": "ethno",
+  "source": "nginx /api/dashboard — counts only, no IPs stored",
+  "note": "Bitrix webhook va bot trafigi chiqarilgan. Odam soni = kirgan (auth) odamlar.",
+  "updated": "2026-10-17",
+  "people": 25,
+  "entries": 144,
+  "days": [],
+  "sections": [
+    {
+      "key": "lidlar", "name": "Lidlar", "users": 32, "calls": 4578,
+      "subs": [
+        { "name": "Lid statistikasi", "users": 32, "calls": 540 },
+        { "name": "Vazifalar", "users": 32, "calls": 539 },
+        { "name": "Mas'ullar", "users": 32, "calls": 539 },
+        { "name": "Konversiya", "users": 32, "calls": 538 },
+        { "name": "Bekor sabablari", "users": 32, "calls": 537 },
+        { "name": "Manba statistikasi", "users": 32, "calls": 535 },
+        { "name": "Sifatsiz sabablari", "users": 32, "calls": 535 },
+        { "name": "UTM", "users": 32, "calls": 533 },
+        { "name": "Filtrlar", "users": 32, "calls": 282 },
+        { "name": "Lid tsikli", "users": 4, "calls": 7 }
+      ]
+    },
+    {
+      "key": "eski-baza", "name": "Eski baza", "users": 15, "calls": 159,
+      "subs": [{ "name": "Eski baza", "users": 15, "calls": 159 }]
+    },
+    {
+      "key": "sdelkalar", "name": "Sdelkalar", "users": 13, "calls": 569,
+      "subs": [
+        { "name": "Mas'ullar", "users": 13, "calls": 85 },
+        { "name": "Ro'yxat", "users": 13, "calls": 82 },
+        { "name": "Filtrlar", "users": 13, "calls": 76 },
+        { "name": "Manba statistikasi", "users": 12, "calls": 84 },
+        { "name": "Konversiya", "users": 12, "calls": 84 },
+        { "name": "Statistika", "users": 12, "calls": 80 },
+        { "name": "Bekor sabablari", "users": 12, "calls": 78 }
+      ]
+    },
+    {
+      "key": "qongiroqlar", "name": "Qo'ng'iroqlar", "users": 9, "calls": 172,
+      "subs": [
+        { "name": "Status statistikasi", "users": 9, "calls": 84 },
+        { "name": "Operator raqamlari", "users": 8, "calls": 36 },
+        { "name": "To'liq statistika", "users": 7, "calls": 25 },
+        { "name": "Filtrlar", "users": 7, "calls": 22 },
+        { "name": "O'tkazib yuborilgan", "users": 3, "calls": 4 }
+      ]
+    },
+    {
+      "key": "logistika", "name": "Logistika", "users": 4, "calls": 50,
+      "subs": [
+        { "name": "Og'irlik (oylik)", "users": 4, "calls": 10 },
+        { "name": "Tarif", "users": 4, "calls": 10 },
+        { "name": "Yo'nalish", "users": 4, "calls": 10 },
+        { "name": "Hudud", "users": 4, "calls": 10 },
+        { "name": "Filial", "users": 4, "calls": 10 }
+      ]
+    },
+    {
+      "key": "taqsimot", "name": "Taqsimot", "users": 3, "calls": 8,
+      "subs": [
+        { "name": "Statistika", "users": 3, "calls": 4 },
+        { "name": "Taqsimot", "users": 3, "calls": 4 }
+      ]
+    }
+  ]
+}
