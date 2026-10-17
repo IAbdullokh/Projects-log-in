@@ -1,0 +1,16 @@
+{
+  "project": "powergym",
+  "source": "nginx /api dashboard sections — counts only, no IPs stored",
+  "note": "Faqat dashboard bo'limlari (Lid holati, Lidlar, Sdelkalar...). Serverdagi forma ilovasi va bot trafigi chiqarilgan. Odam soni ≈ taxminiy.",
+  "updated": "2026-10-17",
+  "people": 15,
+  "entries": 66,
+  "days": [],
+  "sections": [
+    { "key": "lead-holati", "name": "Lid holati", "users": 15, "calls": 10937, "subs": [] },
+    { "key": "lidlar", "name": "Lidlar", "users": 10, "calls": 502, "subs": [] },
+    { "key": "sdelkalar", "name": "Sdelkalar", "users": 7, "calls": 204, "subs": [] },
+    { "key": "qongiroqlar", "name": "Qo'ng'iroqlar", "users": 7, "calls": 16, "subs": [] },
+    { "key": "taqsimot", "name": "Taqsimot", "users": 6, "calls": 475, "subs": [] }
+  ]
+}

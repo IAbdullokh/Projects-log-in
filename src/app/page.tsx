@@ -66,7 +66,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ v
             {dash.map((p) => {
               const real = getDashUsage(p.slug);
               return real ? (
-                <CardShell key={p.slug} p={p} href={`/p/${p.slug}`} realDaily={real.avgUsers} />
+                <CardShell key={p.slug} p={p} href={`/p/${p.slug}`} realDaily={real.peopleTotal} />
               ) : (
                 <CardShell key={p.slug} p={p} sample href={`/p/${p.slug}`} />
               );
@@ -124,11 +124,8 @@ function CardShell({
           <div className="mt-3 h-10 animate-pulse rounded-lg bg-slate-100" />
         ) : realDaily !== undefined ? (
           <div className="mt-3">
-            <div className="num text-xl font-bold text-slate-900">
-              {realDaily}
-              <span className="ml-1 text-[12px] font-medium text-slate-400">o'rtacha</span>
-            </div>
-            <div className="text-[11px] text-slate-500">kunlik faol foydalanuvchi</div>
+            <div className="num text-xl font-bold text-slate-900">{realDaily}</div>
+            <div className="text-[11px] text-slate-500">jami foydalanuvchi (odam)</div>
           </div>
         ) : (
           <>

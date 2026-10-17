@@ -32,10 +32,10 @@ function DashReal({ p, d }: { p: Project; d: DashUsage }) {
     <main className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-12">
       <Header p={p} subtitle={`Dashboard · ${p.host} · haqiqiy ma'lumot (server jurnali)`} />
       <div className="mb-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <StatTile label="Jami odam" value={d.peopleTotal} sub={`har xil odam · ${d.days.length} kun`} tone="brand" />
-        <StatTile label="Necha marta ochilgan" value={d.entries} sub={`~${entriesPerDay}/kun`} tone="accent" />
-        <StatTile label="O'rtacha kunlik" value={d.avgUsers} sub="har kuni har xil odam" tone="violet" />
+        <StatTile label="Jami odam" value={d.peopleTotal} sub="har xil odam" tone="brand" />
+        <StatTile label="Necha marta ochilgan" value={d.entries} sub={d.days.length ? `~${entriesPerDay}/kun` : "ochilishlar"} tone="accent" />
         <StatTile label="Eng faol bo'lim" value={topSection ? topSection.name : "—"} sub={topSection ? `${topSection.users} odam` : undefined} tone="emerald" />
+        <StatTile label="Bo'limlar" value={d.sections.length} sub="kuzatilgan" tone="violet" />
       </div>
 
       <Card className="mb-6 p-5">
@@ -46,7 +46,11 @@ function DashReal({ p, d }: { p: Project; d: DashUsage }) {
       <div className="grid gap-6 lg:grid-cols-2">
         <Card className="p-5">
           <SectionHead title="Kunlik faol" hint="Har kuni nechta har xil odam kirgan" />
-          <AdoptionChart data={series} />
+          {series.length > 1 ? (
+            <AdoptionChart data={series} />
+          ) : (
+            <p className="py-8 text-center text-[13px] text-slate-400">Kunlik tafsilot bu dashboard uchun hali yig'ilmagan.</p>
+          )}
         </Card>
         <Card className="p-5">
           <SectionHead title="Nimani bilamiz" />

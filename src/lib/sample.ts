@@ -21,6 +21,7 @@ export const PROJECTS: Project[] = [
   { slug: "hilol", name: "Hilol", kind: "dashboard", host: "VPS", active: true, launch: "2026-08-20", weeklyActive: 8, seats: 14 },
   { slug: "k-davo", name: "K-davo", kind: "dashboard", host: "VPS", active: true, launch: "2026-09-01", weeklyActive: 6, seats: 9 },
   { slug: "ilmi-hol", name: "Ilmi-hol", kind: "dashboard", host: "VPS", active: true, launch: "2026-09-10", weeklyActive: 5, seats: 10 },
+  { slug: "powergym", name: "Power Gym", kind: "dashboard", host: "VPS", active: true, launch: "2026-09-01", weeklyActive: 0, seats: 1 },
 ];
 
 // Per-project section usage (sample) — a section/feature and how often it was opened.

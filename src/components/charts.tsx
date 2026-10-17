@@ -59,6 +59,7 @@ export function AdoptionChart({
   width?: number;
   height?: number;
 }) {
+  if (!data.length) return null;
   const padL = 8;
   const padR = 28;
   const padT = 12;
