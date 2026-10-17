@@ -5,6 +5,7 @@ import { Bars, AdoptionChart } from "@/components/charts";
 import { projectBySlug, DETAIL, PROJECTS, type Project } from "@/lib/sample";
 import { getVipDetail } from "@/lib/vip-data";
 import { getDashUsage, type DashUsage } from "@/lib/dash-data";
+import { SectionExplorer } from "@/components/SectionExplorer";
 
 export const dynamic = "force-dynamic";
 
@@ -25,30 +26,36 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 // ---- Real dashboard (from server-log counts) ------------------------------
 function DashReal({ p, d }: { p: Project; d: DashUsage }) {
   const series = d.days.map((x) => ({ week: x.date.slice(8), active: x.users }));
+  const topSection = d.sections[0];
+  const entriesPerDay = d.days.length ? Math.round(d.entries / d.days.length) : 0;
   return (
     <main className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-12">
       <Header p={p} subtitle={`Dashboard · ${p.host} · haqiqiy ma'lumot (server jurnali)`} />
       <div className="mb-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <StatTile label="O'rtacha kunlik" value={d.avgUsers} sub="foydalanuvchi · 7 kun" tone="brand" />
-        <StatTile label="Eng ko'p kunlik" value={d.peakUsers} sub="bir kunda" tone="accent" />
-        <StatTile label="Jami so'rov" value={d.totalCalls.toLocaleString("ru-RU")} sub="dashboard API" />
-        <StatTile label="Kuzatilgan" value={d.days.length} sub={`kun · oxirgi ${d.lastDate ?? "—"}`} tone="amber" />
+        <StatTile label="Kirishlar" value={d.entries} sub={`~${entriesPerDay}/kun · ${d.days.length} kun`} tone="brand" />
+        <StatTile label="O'rtacha kunlik" value={d.avgUsers} sub="har xil odam · 7 kun" tone="accent" />
+        <StatTile label="Eng faol bo'lim" value={topSection ? topSection.name : "—"} sub={topSection ? `${topSection.users} odam` : undefined} tone="emerald" />
+        <StatTile label="Bo'limlar" value={d.sections.length} sub="kuzatilgan" tone="amber" />
       </div>
-      <Card className="mb-6 p-4">
-        <p className="text-[12.5px] leading-relaxed text-slate-600">
-          Server <b>so'rov jurnali</b> asosida: har kuni nechta <b>har xil odam</b> dashboardni ochgani va
-          API so'rovlari soni. <b>Faqat sanoq — ism/IP saqlanmaydi.</b> Bitrix webhook va bot skanerlar chiqarib tashlangan.
-          Qaysi <b>bo'lim/filtr</b> ishlatilgani — bu daraja uchun ilovaga qo'shiladigan kuzatuv kerak.
-        </p>
+
+      <Card className="mb-6 p-5">
+        <SectionHead title="Qaysi bo'lim ishlatiladi" hint="Bo'limni bosing — ichidagi qismlar ochiladi. Raqam = nechta har xil odam ochgan." />
+        <SectionExplorer sections={d.sections} />
       </Card>
+
       <div className="grid gap-6 lg:grid-cols-2">
-        <Card className="p-5 lg:col-span-2">
-          <SectionHead title="Kunlik faol foydalanuvchilar" hint="Har kuni nechta har xil odam ochgan" />
+        <Card className="p-5">
+          <SectionHead title="Kunlik faol" hint="Har kuni nechta har xil odam kirgan" />
           <AdoptionChart data={series} />
         </Card>
-        <Card className="p-5 lg:col-span-2">
-          <SectionHead title="Kunlik dashboard so'rovlari" hint="Faollik hajmi (API chaqiruvlari)" />
-          <Bars items={d.days.map((x) => ({ label: x.date.slice(5), value: x.calls }))} />
+        <Card className="p-5">
+          <SectionHead title="Nimani bilamiz" />
+          <ul className="space-y-2 text-[12.5px] leading-relaxed text-slate-600">
+            <li>✅ Qaysi <b>bo'lim</b>ni kim ochgani — server jurnalidan (ilovaga tegilmagan).</li>
+            <li>✅ <b>Kirishlar</b> va kunlik faol odamlar soni.</li>
+            <li>🔒 Faqat <b>sanoq</b> — ism, email, IP saqlanmaydi.</li>
+            <li>⛔ Qaysi <b>filtr qiymati</b> tanlangani — bu daraja ilovaga kuzatuv talab qiladi.</li>
+          </ul>
         </Card>
       </div>
     </main>

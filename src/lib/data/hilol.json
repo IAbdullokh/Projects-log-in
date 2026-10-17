@@ -1,8 +1,9 @@
 {
   "project": "hilol",
   "source": "nginx /api/dashboard — counts only, no IPs stored",
-  "note": "Distinct daily visitors (by request origin, not stored) and dashboard API calls. Bitrix webhooks and bot scanners excluded.",
+  "note": "Qaysi bo'limni nechta har xil odam ochgani (server so'rov jurnalidan). Bitrix webhook va botlar chiqarilgan.",
   "updated": "2026-10-17",
+  "entries": 200,
   "days": [
     { "date": "2026-10-03", "users": 6, "calls": 160 },
     { "date": "2026-10-04", "users": 2, "calls": 113 },
@@ -19,5 +20,89 @@
     { "date": "2026-10-15", "users": 4, "calls": 373 },
     { "date": "2026-10-16", "users": 3, "calls": 481 },
     { "date": "2026-10-17", "users": 3, "calls": 87 }
+  ],
+  "sections": [
+    {
+      "key": "taqsimot", "name": "Taqsimot", "users": 18, "calls": 1533,
+      "subs": [
+        { "name": "Statistika", "users": 18, "calls": 175 },
+        { "name": "Dam kunlari", "users": 18, "calls": 66 },
+        { "name": "Taqsimot (asosiy)", "users": 18, "calls": 50 },
+        { "name": "Haftalik tarix", "users": 15, "calls": 46 },
+        { "name": "Mening kuzatuvlarim", "users": 5, "calls": 726 },
+        { "name": "Kuzatuvni yopish", "users": 1, "calls": 446 },
+        { "name": "Javob vaqtlari", "users": 2, "calls": 4 },
+        { "name": "Operator yuki", "users": 2, "calls": 4 },
+        { "name": "Istisno", "users": 2, "calls": 4 },
+        { "name": "Heatmap", "users": 2, "calls": 4 }
+      ]
+    },
+    {
+      "key": "lidlar", "name": "Lidlar", "users": 13, "calls": 751,
+      "subs": [
+        { "name": "Lid mas'ullari", "users": 13, "calls": 300 },
+        { "name": "Lid statistikasi", "users": 13, "calls": 150 },
+        { "name": "Kunlik lidlar", "users": 13, "calls": 150 },
+        { "name": "Sifatsiz sabablari", "users": 13, "calls": 150 },
+        { "name": "Bekor sabablari", "users": 13, "calls": 150 },
+        { "name": "Filtrlar", "users": 13, "calls": 148 },
+        { "name": "Lid reaksiya", "users": 1, "calls": 3 }
+      ]
+    },
+    {
+      "key": "hisobot", "name": "Hisobot", "users": 13, "calls": 187,
+      "subs": [
+        { "name": "Oylar", "users": 13, "calls": 58 },
+        { "name": "Voronka", "users": 13, "calls": 58 },
+        { "name": "Savdo-balans", "users": 13, "calls": 57 },
+        { "name": "Haftalar", "users": 4, "calls": 13 }
+      ]
+    },
+    {
+      "key": "utm", "name": "UTM", "users": 13, "calls": 151,
+      "subs": [{ "name": "UTM statistikasi", "users": 13, "calls": 150 }]
+    },
+    {
+      "key": "wazzup", "name": "Wazzup (chat)", "users": 7, "calls": 683,
+      "subs": [
+        { "name": "Chat ochish", "users": 1, "calls": 649 },
+        { "name": "Chatlar", "users": 6, "calls": 17 },
+        { "name": "Chat statistikasi", "users": 6, "calls": 13 },
+        { "name": "Sessiya statistikasi", "users": 2, "calls": 4 }
+      ]
+    },
+    {
+      "key": "sdelkalar", "name": "Sdelkalar", "users": 6, "calls": 245,
+      "subs": [
+        { "name": "Breakdown", "users": 6, "calls": 65 },
+        { "name": "Manba statistikasi", "users": 6, "calls": 31 },
+        { "name": "Mas'ullar", "users": 6, "calls": 31 },
+        { "name": "Konversiya", "users": 6, "calls": 31 },
+        { "name": "Bekor sabablari", "users": 6, "calls": 31 },
+        { "name": "Statistika", "users": 6, "calls": 29 },
+        { "name": "Filtrlar", "users": 6, "calls": 25 }
+      ]
+    },
+    {
+      "key": "qongiroqlar", "name": "Qo'ng'iroqlar", "users": 5, "calls": 18,
+      "subs": [
+        { "name": "Qo'ng'iroq statistikasi", "users": 5, "calls": 9 },
+        { "name": "Filtrlar", "users": 5, "calls": 9 }
+      ]
+    },
+    {
+      "key": "operator", "name": "Operator sotuvi", "users": 4, "calls": 40,
+      "subs": [
+        { "name": "Operator sotuvi", "users": 4, "calls": 33 },
+        { "name": "Buyurtmalar", "users": 2, "calls": 7 }
+      ]
+    },
+    {
+      "key": "boshqa", "name": "Boshqa", "users": 14, "calls": 303, "subs": []
+    },
+    {
+      "key": "opencart", "name": "Opencart", "users": 1, "calls": 6,
+      "subs": [{ "name": "Yuklamalar", "users": 1, "calls": 6 }]
+    }
   ]
 }
