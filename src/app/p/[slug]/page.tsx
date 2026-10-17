@@ -4,6 +4,7 @@ import { Card, StatTile, SectionHead, Pill } from "@/components/glass";
 import { Bars, AdoptionChart } from "@/components/charts";
 import { projectBySlug, DETAIL, PROJECTS, type Project } from "@/lib/sample";
 import { getVipDetail } from "@/lib/vip-data";
+import { getDashUsage, type DashUsage } from "@/lib/dash-data";
 
 export const dynamic = "force-dynamic";
 
@@ -16,7 +17,42 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   const p = projectBySlug(slug);
   if (!p) notFound();
   if (slug === "vip-taxi") return <VipReal p={p} />;
+  const dash = getDashUsage(slug);
+  if (dash) return <DashReal p={p} d={dash} />;
   return <SampleDetail p={p} />;
+}
+
+// ---- Real dashboard (from server-log counts) ------------------------------
+function DashReal({ p, d }: { p: Project; d: DashUsage }) {
+  const series = d.days.map((x) => ({ week: x.date.slice(8), active: x.users }));
+  return (
+    <main className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-12">
+      <Header p={p} subtitle={`Dashboard · ${p.host} · haqiqiy ma'lumot (server jurnali)`} />
+      <div className="mb-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <StatTile label="O'rtacha kunlik" value={d.avgUsers} sub="foydalanuvchi · 7 kun" tone="brand" />
+        <StatTile label="Eng ko'p kunlik" value={d.peakUsers} sub="bir kunda" tone="accent" />
+        <StatTile label="Jami so'rov" value={d.totalCalls.toLocaleString("ru-RU")} sub="dashboard API" />
+        <StatTile label="Kuzatilgan" value={d.days.length} sub={`kun · oxirgi ${d.lastDate ?? "—"}`} tone="amber" />
+      </div>
+      <Card className="mb-6 p-4">
+        <p className="text-[12.5px] leading-relaxed text-slate-600">
+          Server <b>so'rov jurnali</b> asosida: har kuni nechta <b>har xil odam</b> dashboardni ochgani va
+          API so'rovlari soni. <b>Faqat sanoq — ism/IP saqlanmaydi.</b> Bitrix webhook va bot skanerlar chiqarib tashlangan.
+          Qaysi <b>bo'lim/filtr</b> ishlatilgani — bu daraja uchun ilovaga qo'shiladigan kuzatuv kerak.
+        </p>
+      </Card>
+      <div className="grid gap-6 lg:grid-cols-2">
+        <Card className="p-5 lg:col-span-2">
+          <SectionHead title="Kunlik faol foydalanuvchilar" hint="Har kuni nechta har xil odam ochgan" />
+          <AdoptionChart data={series} />
+        </Card>
+        <Card className="p-5 lg:col-span-2">
+          <SectionHead title="Kunlik dashboard so'rovlari" hint="Faollik hajmi (API chaqiruvlari)" />
+          <Bars items={d.days.map((x) => ({ label: x.date.slice(5), value: x.calls }))} />
+        </Card>
+      </div>
+    </main>
+  );
 }
 
 function Header({ p, subtitle }: { p: Project; subtitle: string }) {

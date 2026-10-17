@@ -4,6 +4,7 @@ import { Card, SectionHead, Pill } from "@/components/glass";
 import { Bars } from "@/components/charts";
 import { PROJECTS, type Project } from "@/lib/sample";
 import { getVipHomeStat } from "@/lib/vip-data";
+import { getDashUsage } from "@/lib/dash-data";
 
 export const dynamic = "force-dynamic";
 
@@ -62,7 +63,14 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ v
             <p className="mt-3 text-[12px] text-slate-400">namuna · haftalik faol foydalanuvchilar</p>
           </Card>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {dash.map((p) => <CardShell key={p.slug} p={p} sample href={`/p/${p.slug}`} />)}
+            {dash.map((p) => {
+              const real = getDashUsage(p.slug);
+              return real ? (
+                <CardShell key={p.slug} p={p} href={`/p/${p.slug}`} realDaily={real.avgUsers} />
+              ) : (
+                <CardShell key={p.slug} p={p} sample href={`/p/${p.slug}`} />
+              );
+            })}
           </div>
         </section>
       )}
@@ -85,6 +93,7 @@ function CardShell({
   href,
   weeklyActive,
   seats,
+  realDaily,
   sample,
   loading,
   error,
@@ -93,6 +102,7 @@ function CardShell({
   href: string;
   weeklyActive?: number;
   seats?: number;
+  realDaily?: number;
   sample?: boolean;
   loading?: boolean;
   error?: boolean;
@@ -112,6 +122,14 @@ function CardShell({
         </div>
         {loading ? (
           <div className="mt-3 h-10 animate-pulse rounded-lg bg-slate-100" />
+        ) : realDaily !== undefined ? (
+          <div className="mt-3">
+            <div className="num text-xl font-bold text-slate-900">
+              {realDaily}
+              <span className="ml-1 text-[12px] font-medium text-slate-400">o'rtacha</span>
+            </div>
+            <div className="text-[11px] text-slate-500">kunlik faol foydalanuvchi</div>
+          </div>
         ) : (
           <>
             <div className="mt-3 flex items-end justify-between">

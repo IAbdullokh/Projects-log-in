@@ -1,0 +1,23 @@
+{
+  "project": "hilol",
+  "source": "nginx /api/dashboard — counts only, no IPs stored",
+  "note": "Distinct daily visitors (by request origin, not stored) and dashboard API calls. Bitrix webhooks and bot scanners excluded.",
+  "updated": "2026-10-17",
+  "days": [
+    { "date": "2026-10-03", "users": 6, "calls": 160 },
+    { "date": "2026-10-04", "users": 2, "calls": 113 },
+    { "date": "2026-10-05", "users": 4, "calls": 465 },
+    { "date": "2026-10-06", "users": 4, "calls": 349 },
+    { "date": "2026-10-07", "users": 4, "calls": 529 },
+    { "date": "2026-10-08", "users": 9, "calls": 362 },
+    { "date": "2026-10-09", "users": 4, "calls": 115 },
+    { "date": "2026-10-10", "users": 3, "calls": 92 },
+    { "date": "2026-10-11", "users": 5, "calls": 60 },
+    { "date": "2026-10-12", "users": 3, "calls": 229 },
+    { "date": "2026-10-13", "users": 3, "calls": 88 },
+    { "date": "2026-10-14", "users": 2, "calls": 622 },
+    { "date": "2026-10-15", "users": 4, "calls": 373 },
+    { "date": "2026-10-16", "users": 3, "calls": 481 },
+    { "date": "2026-10-17", "users": 3, "calls": 87 }
+  ]
+}
